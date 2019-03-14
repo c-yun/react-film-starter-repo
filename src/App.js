@@ -1,20 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './index.css';
+import FilmListing from './FilmListing';
+import FilmDetails from './FilmDetails';
+import TMDB from './TMDB';
+
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      films: TMDB.films,
+      current: {}
+    }
+    this.handleDetailsClick = this.handleDetailsClick.bind(this)
+  }
+
+  handleDetailsClick(film) {
+    console.log('Fetching details for', film)
+    this.setState({
+      current: film
+    })
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="film-library">
+        <FilmListing onDetailsClick={this.handleDetailsClick} films={this.state.films} />
+        <FilmDetails film={this.state.current} />
       </div>
-    );
+    )
   }
 }
 
